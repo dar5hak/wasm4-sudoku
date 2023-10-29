@@ -1,8 +1,10 @@
-import { drawBoard } from "./board";
-import * as w4 from "./wasm4";
+import { drawActiveCell, drawGrid } from "./board";
+import { State } from "./state";
 
 export function update(): void {
-  store<u16>(w4.DRAW_COLORS, 0x21);
+  let state: State;
+  if (!state) state = new State();
 
-  drawBoard();
+  drawGrid();
+  drawActiveCell(state.activeCell);
 }
