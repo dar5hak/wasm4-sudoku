@@ -23,6 +23,27 @@ export function drawActiveCell(activeCell: Cell): void {
   );
 }
 
+export function getCellByPoint(x: i32, y: i32): Cell | null {
+  if (!isOnGrid(x, y)) return null;
+
+  const adjustedX = x - GRID_ORIGIN_X;
+  const adjustedY = y - GRID_ORIGIN_Y;
+
+  const cellX: u8 = (adjustedX / CELL_INNER_WIDTH) as u8;
+  const cellY: u8 = (adjustedY / CELL_INNER_WIDTH) as u8;
+
+  return new Cell(cellX, cellY);
+}
+
+function isOnGrid(x: i32, y: i32): boolean {
+  return (
+    x >= GRID_ORIGIN_X &&
+    x <= GRID_ORIGIN_X + 9 * CELL_OUTER_WIDTH &&
+    y >= GRID_ORIGIN_Y &&
+    y <= GRID_ORIGIN_Y + 9 * CELL_OUTER_WIDTH
+  );
+}
+
 function getCellOrigin(cell: Cell): i32[] {
   return [
     GRID_ORIGIN_X + CELL_INNER_WIDTH * cell.x,
