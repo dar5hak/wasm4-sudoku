@@ -1,4 +1,4 @@
-import { drawActiveCell, drawGrid } from "./board";
+import { drawActiveCell, drawGrid, getCellByPoint, isOnGrid } from "./board";
 import { State } from "./state";
 import * as w4 from "./wasm4";
 
@@ -8,19 +8,30 @@ let state: State;
 export function update(): void {
   if (!state) state = new State();
 
+  handleInput();
+  draw(state);
+}
+
+function handleInput(): void {
   const gamepad = load<u8>(w4.GAMEPAD1);
   const pressedThisFrame = gamepad & (gamepad ^ previousGamepad);
   previousGamepad = gamepad;
 
-  handleInput(gamepad, pressedThisFrame);
-  draw(state);
-}
+  const mouse = load<u8>(w4.MOUSE_BUTTONS);
+  const mouseX = load<i16>(w4.MOUSE_X);
+  const mouseY = load<i16>(w4.MOUSE_Y);
 
-function handleInput(gamepad: u8, pressedThisFrame: u8): void {
   if (pressedThisFrame & w4.BUTTON_UP) state.moveUp();
   if (pressedThisFrame & w4.BUTTON_DOWN) state.moveDown();
   if (pressedThisFrame & w4.BUTTON_LEFT) state.moveLeft();
   if (pressedThisFrame & w4.BUTTON_RIGHT) state.moveRight();
+
+  if (mouse & w4.MOUSE_LEFT) {
+    if (isOnGrid(mouseX, mouseY)) {
+      const cell = getCellByPoint(mouseX, mouseY);
+      state.activateCell(cell);
+    }
+  }
 }
 
 function draw(state: State): void {

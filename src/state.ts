@@ -22,4 +22,8 @@ export class State {
     if (this.activeCell.x == 8) this.activeCell.x = 0;
     else this.activeCell.x++;
   }
+
+  activateCell(cell: Cell): void {
+    this.activeCell = cell;
+  }
 }
