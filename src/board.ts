@@ -3,13 +3,13 @@ import { board, boardFlags, boardHeight, boardWidth } from "./sprites/board";
 import { Cell } from "./cell";
 
 export function drawGrid(): void {
-  store<u16>(w4.DRAW_COLORS, 0x21);
+  store<u16>(w4.DRAW_COLORS, 0x321);
   w4.blit(board, 0, 0, boardWidth, boardHeight, boardFlags);
 }
 
 export function drawActiveCell(activeCell: Cell): void {
   const activeCellOrigin = getCellOrigin(activeCell);
-  store<u16>(w4.DRAW_COLORS, 0x31);
+  store<u16>(w4.DRAW_COLORS, 0x41);
   w4.rect(activeCellOrigin[0], activeCellOrigin[1], 18, 18);
 }
 
