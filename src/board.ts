@@ -2,6 +2,11 @@ import * as w4 from "./wasm4";
 import { board, boardFlags, boardHeight, boardWidth } from "./sprites/board";
 import { Cell } from "./cell";
 
+const GRID_ORIGIN_X = 12;
+const GRID_ORIGIN_Y = 4;
+const CELL_INNER_WIDTH = 15;
+const CELL_OUTER_WIDTH = CELL_INNER_WIDTH + 1;
+
 export function drawGrid(): void {
   store<u16>(w4.DRAW_COLORS, 0x321);
   w4.blit(board, 0, 0, boardWidth, boardHeight, boardFlags);
@@ -9,10 +14,18 @@ export function drawGrid(): void {
 
 export function drawActiveCell(activeCell: Cell): void {
   const activeCellOrigin = getCellOrigin(activeCell);
-  store<u16>(w4.DRAW_COLORS, 0x41);
-  w4.rect(activeCellOrigin[0], activeCellOrigin[1], 18, 18);
+  store<u16>(w4.DRAW_COLORS, 0x32);
+  w4.rect(
+    activeCellOrigin[0],
+    activeCellOrigin[1],
+    CELL_OUTER_WIDTH,
+    CELL_OUTER_WIDTH,
+  );
 }
 
 function getCellOrigin(cell: Cell): i32[] {
-  return [3 + 17 * cell.x, 3 + 17 * cell.y];
+  return [
+    GRID_ORIGIN_X + CELL_INNER_WIDTH * cell.x,
+    GRID_ORIGIN_Y + CELL_INNER_WIDTH * cell.y,
+  ];
 }
