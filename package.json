@@ -2,6 +2,7 @@
   "name": "wasm4-sudoku",
   "version": "1.0.0",
   "scripts": {
+    "dev": "w4 watch",
     "build": "asc --target release",
     "build:debug": "asc --target debug"
   },
