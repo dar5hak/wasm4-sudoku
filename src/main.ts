@@ -1,4 +1,4 @@
-import { drawActiveCell, drawGrid, getCellByPoint } from "./board";
+import { drawActiveCell, drawGrid, getCellByPoint, isOnGrid } from "./board";
 import { State } from "./state";
 import * as w4 from "./wasm4";
 
@@ -27,9 +27,8 @@ function handleInput(): void {
   if (pressedThisFrame & w4.BUTTON_RIGHT) state.moveRight();
 
   if (mouse & w4.MOUSE_LEFT) {
-    const cell = getCellByPoint(mouseX, mouseY);
-
-    if (cell != null) {
+    if (isOnGrid(mouseX, mouseY)) {
+      const cell = getCellByPoint(mouseX, mouseY);
       state.activateCell(cell);
     }
   }
