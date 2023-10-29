@@ -7,5 +7,6 @@
   },
   "devDependencies": {
     "assemblyscript": "^0.20.14"
-  }
+  },
+  "license": "GPL-3.0-or-later"
 }
